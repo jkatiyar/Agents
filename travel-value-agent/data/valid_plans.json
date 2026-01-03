@@ -1,0 +1,81 @@
+[
+  {
+    "Package Name": "Do Dham Yatra By Helicopter 3N",
+    "Nights": "3",
+    "Days": "4",
+    "Destinations": [
+      "Dehradun (1N)",
+      "Sersi (1N)",
+      "Badrinath (1N)"
+    ],
+    "Tour Type": "Group Tour",
+    "Facilities": [
+      "Hotels",
+      "Sightseeing",
+      "Meals"
+    ],
+    "Price Original": "156000",
+    "Price Discounted": "148500",
+    "Discount": "5% OFF"
+  },
+  {
+    "Package Name": "Char Dham Yatra By Helicopter",
+    "Nights": "5",
+    "Days": "6",
+    "Destinations": [
+      "Dehradun (1N)",
+      "Yamunotri (1N)",
+      "Gangotri (1N)",
+      "Sersi (1N)"
+    ],
+    "Tour Type": "Group Tour",
+    "Facilities": [
+      "Hotels",
+      "Sightseeing",
+      "Meals"
+    ],
+    "Price Original": "240000",
+    "Price Discounted": "232500",
+    "Discount": "3% OFF"
+  },
+  {
+    "Package Name": "Char Dham Yatra By Helicopter with Kedarnath Darshan and Maha Abhishek Puja",
+    "Nights": "5",
+    "Days": "6",
+    "Destinations": [
+      "Dehradun (1N)",
+      "Yamunotri (1N)",
+      "Gangotri (1N)",
+      "Sersi (1N)"
+    ],
+    "Tour Type": "Group Tour",
+    "Facilities": [
+      "Hotels",
+      "Sightseeing",
+      "Meals"
+    ],
+    "Price Original": "246000",
+    "Price Discounted": "238500",
+    "Discount": "3% OFF"
+  },
+  {
+    "Package Name": "Char Dham Yatra By Helicopter With Kedarnath Stay And Rudrabhishek Puja",
+    "Nights": "5",
+    "Days": "6",
+    "Destinations": [
+      "Dehradun (1N)",
+      "Yamunotri (1N)",
+      "Gangotri (1N)",
+      "Kedarnath (1N)"
+    ],
+    "Tour Type": "Group Tour",
+    "Facilities": [
+      "Hotels",
+      "Sightseeing",
+      "Meals"
+    ],
+    "Price Original": "250000",
+    "Price Discounted": "242500",
+    "Discount": "3% OFF"
+  }
+]
