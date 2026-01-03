@@ -1,0 +1,65 @@
+{
+    "Haridwar": {
+        "altitude_m": 314,
+        "languages": [
+            "Hindi"
+        ],
+        "population_density": "High",
+        "family_note": "Busy pilgrimage town; crowded on weekends and festivals"
+    },
+    "Rishikesh": {
+        "altitude_m": 372,
+        "languages": [
+            "Hindi",
+            "English"
+        ],
+        "population_density": "Medium",
+        "family_note": "Calm areas available; good cafés and river views"
+    },
+    "Mussoorie": {
+        "altitude_m": 2005,
+        "languages": [
+            "Hindi",
+            "English"
+        ],
+        "population_density": "Medium",
+        "family_note": "Cold evenings; pleasant for families with light walking"
+    },
+    "Nainital": {
+        "altitude_m": 2084,
+        "languages": [
+            "Hindi",
+            "English",
+            "Kumaoni"
+        ],
+        "population_density": "Medium",
+        "family_note": "Popular lake town; tourist-heavy but family friendly"
+    },
+    "Corbett": {
+        "altitude_m": 400,
+        "languages": [
+            "Hindi",
+            "English"
+        ],
+        "population_density": "Low",
+        "family_note": "Resort-based stay; excellent for kids and relaxation"
+    },
+    "Kausani": {
+        "altitude_m": 1890,
+        "languages": [
+            "Hindi",
+            "Kumaoni"
+        ],
+        "population_density": "Low",
+        "family_note": "Quiet hill station; ideal for peaceful family stays"
+    },
+    "Ranikhet": {
+        "altitude_m": 1829,
+        "languages": [
+            "Hindi",
+            "Kumaoni"
+        ],
+        "population_density": "Low",
+        "family_note": "Army cantonment town; clean, calm, low crowds"
+    }
+}

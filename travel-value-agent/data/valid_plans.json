@@ -1,6 +1,6 @@
 [
   {
-    "Package Name": "Do Dham Yatra By Helicopter 3N",
+    "Package Name": "1800-2099-100",
     "Nights": "3",
     "Days": "4",
     "Destinations": [
@@ -10,11 +10,12 @@
     ],
     "Tour Type": "Group Tour",
     "Facilities": [
+      "Flights",
       "Hotels",
       "Sightseeing",
       "Meals"
     ],
-    "Price Original": "156000",
+    "Price Original": "12",
     "Price Discounted": "148500",
     "Discount": "5% OFF"
   },
@@ -77,5 +78,121 @@
     "Price Original": "250000",
     "Price Discounted": "242500",
     "Discount": "3% OFF"
+  },
+  {
+    "Package Name": "Uttarakhand - Divine Ganges",
+    "Nights": "2",
+    "Days": "3",
+    "Destinations": [
+      "Haridwar (1N)",
+      "Rishikesh (1N)"
+    ],
+    "Tour Type": "Customized Holidays",
+    "Facilities": [
+      "Flights",
+      "Hotels",
+      "Sightseeing",
+      "Meals"
+    ],
+    "Price Original": "13477",
+    "Price Discounted": "12100",
+    "Discount": "10% OFF"
+  },
+  {
+    "Package Name": "Uttarakhand - Short Escape To Queen Of Hills",
+    "Nights": "2",
+    "Days": "3",
+    "Destinations": [
+      "Mussoorie (2N)"
+    ],
+    "Tour Type": "Customized Holidays",
+    "Facilities": [
+      "Flights",
+      "Hotels",
+      "Sightseeing",
+      "Meals"
+    ],
+    "Price Original": "16044",
+    "Price Discounted": "14400",
+    "Discount": "10% OFF"
+  },
+  {
+    "Package Name": "Uttarakhand - Hills And Ganges",
+    "Nights": "3",
+    "Days": "4",
+    "Destinations": [
+      "Haridwar (1N)",
+      "Mussoorie (2N)"
+    ],
+    "Tour Type": "Customized Holidays",
+    "Facilities": [
+      "Flights",
+      "Hotels",
+      "Sightseeing",
+      "Meals"
+    ],
+    "Price Original": "20000",
+    "Price Discounted": "18000",
+    "Discount": "10% OFF"
+  },
+  {
+    "Package Name": "Mussoorie With Rishikesh",
+    "Nights": "3",
+    "Days": "4",
+    "Destinations": [
+      "Mussoorie (2N)",
+      "Rishikesh (1N)"
+    ],
+    "Tour Type": "Customized Holidays",
+    "Facilities": [
+      "Flights",
+      "Hotels",
+      "Sightseeing",
+      "Meals"
+    ],
+    "Price Original": "21322",
+    "Price Discounted": "19200",
+    "Discount": "10% OFF"
+  },
+  {
+    "Package Name": "Uttarakhand - Haridwar Rishikesh Mussoorie",
+    "Nights": "4",
+    "Days": "5",
+    "Destinations": [
+      "Haridwar (1N)",
+      "Rishikesh (1N)",
+      "Mussoorie (2N)"
+    ],
+    "Tour Type": "Customized Holidays",
+    "Facilities": [
+      "Flights",
+      "Hotels",
+      "Sightseeing",
+      "Meals"
+    ],
+    "Price Original": "25977",
+    "Price Discounted": "23400",
+    "Discount": "10% OFF"
+  },
+  {
+    "Package Name": "Uttarakhand - Nainital Kausani Ranikhet Corbett",
+    "Nights": "5",
+    "Days": "6",
+    "Destinations": [
+      "Nainital (2N)",
+      "Kausani (1N)",
+      "Ranikhet (1N)",
+      "Corbett (1N)"
+    ],
+    "Tour Type": "Customized Holidays",
+    "Facilities": [
+      "Flights",
+      "Hotels",
+      "Sightseeing",
+      "Meals"
+    ],
+    "Price Original": "31322",
+    "Price Discounted": "28200",
+    "Discount": "10% OFF"
   }
 ]

@@ -2,9 +2,9 @@ import streamlit as st
 import json
 import os
 
-# -------------------------------
-# Page Config
-# -------------------------------
+from engine.place_intelligence_agent import get_place_intelligence
+from engine.road_distance_agent import get_road_distance
+
 st.set_page_config(
     page_title="Travel Value Agent",
     page_icon="🌄",
@@ -12,112 +12,166 @@ st.set_page_config(
 )
 
 st.title("🌄 Travel Value Agent")
-st.subheader("Step 8B: Family-Profile Aware Comparison")
+st.caption("Family-Friendly Travel Value Explorer")
 
-# -------------------------------
-# Traveller Profile (Fixed for now)
-# -------------------------------
-PROFILE = {
-    "adults": 2,
-    "kids": 1,
-    "preferred_nights_min": 4,
-    "preferred_nights_max": 6,
-    "budget_per_adult": 40000,
-    "avoid": ["Helicopter"]
-}
-
-st.markdown("""
-### Traveller Profile
-- 👨‍👩‍👧 2 Adults + 1 Kid  
-- 🛏️ 4–6 Nights  
-- 🌿 Relaxing, kid-friendly  
-- 💰 Value for money (₹40k / adult max)
-""")
-
-# -------------------------------
-# Load Plans
-# -------------------------------
 DATA_FILE = "data/valid_plans.json"
+
 
 def load_plans():
     if not os.path.exists(DATA_FILE):
-        st.error("valid_plans.json not found. Run parser.py first.")
+        st.error("valid_plans.json not found. Run customized_plan_extractor.py first.")
         return []
 
     with open(DATA_FILE, "r", encoding="utf-8") as f:
-        return json.load(f)
+        data = json.load(f)
 
-# -------------------------------
-# Suitability Logic
-# -------------------------------
-def evaluate(plan):
-    reasons = []
-    score = 0
+    clean = []
+    for p in data:
+        if (
+            isinstance(p, dict)
+            and p.get("Package Name")
+            and p.get("Nights")
+            and p.get("Days")
+            and p.get("Price Discounted")
+        ):
+            clean.append(p)
+    return clean
 
-    nights = int(plan["Nights"])
-    price = int(plan["Price Discounted"])
 
-    # Nights
-    if PROFILE["preferred_nights_min"] <= nights <= PROFILE["preferred_nights_max"]:
-        score += 30
+def travel_fatigue_by_road(start_city, first_place):
+    km = get_road_distance(start_city, first_place)
+    if km is None:
+        return "Unknown", None
+
+    if km < 200:
+        return "Low", km
+    elif km <= 400:
+        return "Medium", km
     else:
-        reasons.append("❌ Nights not ideal for family")
+        return "High", km
 
-    # Price
-    if price <= PROFILE["budget_per_adult"]:
-        score += 30
-    else:
-        reasons.append("❌ Too expensive per adult")
 
-    # Helicopter check
-    if "Helicopter" in plan["Package Name"]:
-        reasons.append("❌ Helicopter-based (not kid/value friendly)")
-    else:
-        score += 20
+def senior_friendliness(fatigue, nights):
+    score = 5
+    if fatigue == "High":
+        score -= 2
+    if nights <= 3:
+        score -= 1
+    return max(score, 1)
 
-    # Tour type
-    if plan["Tour Type"] == "Customized Holidays":
-        score += 20
-    else:
-        reasons.append("❌ Group tour (less flexible with kids)")
 
-    if score >= 60:
-        verdict = "🟢 Suitable"
-    elif score >= 30:
-        verdict = "🟡 Borderline"
-    else:
-        verdict = "🔴 Not Suitable"
+def kid_friendliness(plan):
+    score = 5
+    if int(plan["Nights"]) <= 3:
+        score -= 1
+    if len(plan.get("Destinations", [])) >= 4:
+        score -= 2
+    if plan.get("Tour Type") == "Group Tour":
+        score -= 1
+    return max(score, 1)
 
-    return verdict, reasons
 
-# -------------------------------
-# UI
-# -------------------------------
-if st.button("Evaluate Plans for My Family"):
+def family_score(plan):
+    score = 50
+    score += kid_friendliness(plan) * 5
+    return score
+
+
+st.subheader("👨‍👩‍👧 Traveller Details")
+c1, c2, c3, c4, c5 = st.columns(5)
+
+with c1:
+    adults = st.number_input("Adults", min_value=1, value=2)
+with c2:
+    kids = st.number_input("Kids", min_value=0, value=1)
+with c3:
+    month = st.selectbox(
+        "Month of Travel",
+        ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+    )
+with c4:
+    nights_label = st.selectbox(
+        "Preferred Nights",
+        ["2-3", "3-4", "4-6", "Any"]
+    )
+with c5:
+    start_city = st.selectbox(
+        "Starting City",
+        ["Delhi", "Mumbai", "Kolkata", "Chennai", "Hyderabad"]
+    )
+
+st.subheader("💰 Budget Preference")
+budget_label = st.selectbox(
+    "Price per adult (₹)",
+    ["Any", "Under 20,000", "Under 30,000", "Under 40,000"]
+)
+
+nights_range = {
+    "2-3": (2, 3),
+    "3-4": (3, 4),
+    "4-6": (4, 6),
+    "Any": (1, 30)
+}[nights_label]
+
+max_price = {
+    "Under 20,000": 20000,
+    "Under 30,000": 30000,
+    "Under 40,000": 40000,
+    "Any": None
+}[budget_label]
+
+
+def filter_plans(plans):
+    out = []
+    for p in plans:
+        nights = int(p["Nights"])
+        price = int(p["Price Discounted"])
+        if not (nights_range[0] <= nights <= nights_range[1]):
+            continue
+        if max_price and price > max_price:
+            continue
+        out.append(p)
+    return out
+
+
+if st.button("🔍 Find Best Plans"):
     plans = load_plans()
+    plans = filter_plans(plans)
 
-    if not plans:
-        st.warning("No plans available.")
-    else:
-        rows = []
+    st.success(f"{len(plans)} plans found")
 
-        for p in plans:
-            verdict, reasons = evaluate(p)
+    for i, plan in enumerate(plans, 1):
+        st.markdown(f"## {i}. {plan['Package Name']}")
+        st.write(f"🛏 Nights: {plan['Nights']} | 📅 Days: {plan['Days']}")
+        st.write(f"💰 Price: ₹{plan['Price Discounted']}")
+        st.write(f"🚌 Tour Type: {plan.get('Tour Type', 'N/A')}")
+        st.write(f"👶 Kid Score: {kid_friendliness(plan)}/5")
 
-            rows.append({
-                "Package Name": p["Package Name"],
-                "Nights": p["Nights"],
-                "Days": p["Days"],
-                "Price (₹ / Adult)": p["Price Discounted"],
-                "Tour Type": p["Tour Type"],
-                "Verdict": verdict,
-                "Why / Why Not": " | ".join(reasons) if reasons else "Good fit"
-            })
+        first_place = plan["Destinations"][0].split("(")[0].strip()
+        fatigue, km = travel_fatigue_by_road(start_city, first_place)
 
-        st.dataframe(rows, use_container_width=True)
+        st.write(f"🚗 Road Travel: {start_city} → {first_place}")
+        st.write(f"🧠 Road Fatigue: {fatigue}" + (f" (~{km} km)" if km else ""))
 
-        st.info(
-            "ℹ️ Current plans are technically valid but mostly premium/helicopter-based. "
-            "For true value-for-money family trips, the scraper needs to capture "
-            "customized road-trip packages (Nainital, Mussoorie, Rishikesh, etc.)."
-        )
+        st.write(f"🧓 Senior Friendliness: {senior_friendliness(fatigue, int(plan['Nights']))}/5")
+        st.write(f"🏆 Family Score: {family_score(plan)}")
+
+        if plan.get("Facilities"):
+            st.write("🎯 Facilities:", ", ".join(plan["Facilities"]))
+
+        with st.expander("🌍 View Place Details"):
+            for dest in plan.get("Destinations", []):
+                place = dest.split("(")[0].strip()
+                st.markdown(f"### 📍 {place}")
+
+                info = get_place_intelligence(place, month)
+
+                st.write("🌡 Temperature:", info["temperature"])
+                st.write("⛰ Altitude:", info["altitude"])
+                st.write("🗣 Language:", info["language"])
+                st.write("🍲 Local Food:", info["food"])
+                st.write("💸 Avg Cost:", info["avg_cost"])
+                st.write("👥 Crowd Density:", info["crowd_density"])
+                st.write("🌧 Monsoon Risk:", info["monsoon_risk"])
+
+        st.divider()
